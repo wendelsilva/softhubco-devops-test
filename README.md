@@ -16,25 +16,25 @@ Sempre crie uma nova branch a partir da `develop` antes de começar a desenvolve
 ```
 git checkout develop
 git pull origin develop
-git checkout -b feature/nova_feature
+git checkout -b feature/new_feature
 ```
 2. Desenvolvimento da feature <br>
 Escreva um código limpo e bem documentado utilizando commits semânticos
 ```
-feat: Adiciona nova funcionalidade
-fix: Corrige bug na funcionalidade
-refactor: Refatora código da funcionalidade
+feat: new feature added
+fix: bug fix for the feature
+refactor: refactoring in the feature code
 ```
 3. Testes <br>
 Antes de abrir o pull request, garanta que sua implementação está correta rodando os testes:
 ```
 To-do
-[ ] comandos para teste
+[ ] commands for tests
 ```
 4. Pull Request <br>
 Após finalizar a feature, faça o push da sua branch
 ```
-git push origin feature/nova_feature
+git push origin feature/new_feature
 ```
 
 ---
