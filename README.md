@@ -25,13 +25,7 @@ feat: new feature added
 fix: bug fix for the feature
 refactor: refactoring in the feature code
 ```
-3. Testes <br>
-Antes de abrir o pull request, garanta que sua implementação está correta rodando os testes:
-```
-To-do
-[ ] commands for tests
-```
-4. Pull Request <br>
+3. Pull Request <br>
 Após finalizar a feature, faça o push da sua branch
 ```
 git push origin feature/new_feature
