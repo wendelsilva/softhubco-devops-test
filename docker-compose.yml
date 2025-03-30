@@ -1,12 +1,73 @@
 services:
   localstack:
-    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
+    container_name: "localstack"
     image: localstack/localstack
     ports:
-      - "127.0.0.1:4566:4566"
-      - "127.0.0.1:4510-4559:4510-4559"
+      - "4566:4566"
+      - "4510-4559:4510-4559"
     environment:
-      - DEBUG=${DEBUG:-0}
+      - DEBUG=1
     volumes:
-      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "./localstack:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - devopstest
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "prometheus-data:/prometheus"
+    networks:
+      - devopstest
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    networks:
+      - devopstest
+  loki:
+    container_name: loki
+    image: grafana/loki
+    ports:
+      - "3100:3100"
+    command:
+      - -config.file=/etc/loki/local-config.yaml
+      - -print-config-stderr=true
+    networks:
+      - devopstest
+  promtail:
+    container_name: promtail
+    image: grafana/promtail
+    ports:
+      - 9080:9080
+    volumes:
+      - "./promtail/config.yml:/etc/promtail/config.yml"
+      - "./promtail/position:/position"
+      - "/var/log:/logs/syslogs/"
+      - "/var/lib/docker/containers/:/docker/containers/"
+    depends_on:
+      - loki
+    networks:
+      - devopstest
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins
+    ports:
+      - 4000:8080
+      - 50000:50000
+    volumes:
+      - "./jenkins_home:/etc/jenkins_home"
+    networks:
+      - devopstest
+networks:
+  devopstest:
+    driver: bridge
+volumes:
+  prometheus-data:
