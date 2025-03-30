@@ -5,8 +5,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t softhubco/django_crm:${env.BUILD_ID} -f django_crm/Dockerfile django_crm"
-                    // django_crm_app = docker.build("softhubco/django_crm:${env.BUILD_ID}", "-f django_crm/Dockerfile django_crm", )
+                    django_crm_app = docker.build("softhubco/django_crm:${env.BUILD_ID}", "-f django_crm/Dockerfile django_crm", )
                 }
             }
         }
