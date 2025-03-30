@@ -9,12 +9,19 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'echo "Executando o comando docker build"'
+                script {
+                    django_crm_app = docker.build("softhubco/django_crm:${env.BUILD_ID}", "-f ./django_crm/Dockerfile", )
+                }
             }
         }
         stage('Push Docker Image') {
             steps {
-                sh 'echo "Executando o comando docker push"'
+                script {
+                    docker.withRegistry("https://registry.hub.docker.com", "dockerhub") {
+                        django_crm_app.push("latest")
+                        django_crm_app.push("${env.BUILD_ID}")
+                    }
+                }
             }
         }
         stage('Deploy no Kubernetes') {
