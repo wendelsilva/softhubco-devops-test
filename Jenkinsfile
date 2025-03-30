@@ -2,11 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Compile App Code') {
-            steps {
-                sh 'echo "Compilando codigo da aplicação"'
-            }
-        }
         stage('Build Docker Image') {
             steps {
                 script {
