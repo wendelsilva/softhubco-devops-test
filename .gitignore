@@ -211,4 +211,5 @@ terraform.rc
 
 **/promtail/position/*
 **/localstack/*
+**/jenkins-data/*
 

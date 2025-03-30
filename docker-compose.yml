@@ -58,12 +58,21 @@ services:
       - devopstest
   jenkins:
     container_name: jenkins
-    image: jenkins/jenkins
+    image: jenkins/jenkins:latest-jdk21
     ports:
       - 4000:8080
       - 50000:50000
     volumes:
       - "./jenkins_home:/etc/jenkins_home"
+    networks:
+      - devopstest
+  jenkins-agent:
+    container_name: jenkins-agent
+    image: jenkins/inbound-agent:latest-jdk21
+    environment:
+      - JENKINS_URL=http://jenkins:8080
+      - JENKINS_SECRET=f29e870632debd71f953d0da59972827b5bce6006d5e20853219d0e01c707e71
+      - JENKINS_AGENT_NAME=jenkins-agent
     networks:
       - devopstest
 networks:
