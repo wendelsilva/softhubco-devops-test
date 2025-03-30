@@ -1,5 +1,3 @@
-provider "kind" {}
-
 resource "kind_cluster" "default" {
     name           = "softhubco-devops-cluster"
     wait_for_ready = true
